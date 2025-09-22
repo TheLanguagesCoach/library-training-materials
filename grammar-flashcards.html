@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar & General English Flashcards</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .controls {
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: #00b4db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #0083ac;
+            transform: translateY(-2px);
+        }
+        
+        .btn.secondary {
+            background: #0078aa;
+        }
+        
+        .btn.secondary:hover {
+            background: #005a80;
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 0 auto;
+            width: 400px;
+            height: 280px;
+        }
+        
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .flashcard-front {
+            background: white;
+            color: #333;
+        }
+        
+        .flashcard-back {
+            background: #1e3c72;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .word {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .pronunciation {
+            font-size: 1.2em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .back .pronunciation {
+            color: #bdc3c7;
+        }
+        
+        .sentence {
+            font-size: 1.1em;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border-left: 4px solid #00b4db;
+        }
+        
+        .french-word {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+        
+        .category {
+            font-size: 0.9em;
+            background: rgba(0,180,219,0.8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .progress {
+            margin: 20px 0;
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .card-counter {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        
+        .filter-buttons {
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: white;
+            color: #00b4db;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="index.html" style="color: white; text-decoration: none;">UCA Library Training</a></h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="day1-vocabulary.html">Day 1 Vocabulary</a></li>
+                    <li><a href="day2-vocabulary.html">Day 2 Vocabulary</a></li>
+                    <li><a href="day1-flashcards.html">Day 1 Flashcards</a></li>
+                    <li><a href="day2-flashcards.html">Day 2 Flashcards</a></li>
+                    <li><a href="grammar-flashcards.html" class="active">Grammar Flashcards</a></li>
+                    <li><a href="lesson-plans.html">Lesson Plans</a></li>
+                    <li><a href="activities.html">Activities</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>📖 Grammar & General English Cards</h1>
+        
+        <div class="instructions">
+            <strong>Grammar & Essential Words for Library Communication</strong><br>
+            Days, months, numbers, modal verbs, time expressions, and more!
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterCards('all')">All</button>
+            <button class="filter-btn" onclick="filterCards('time')">Time</button>
+            <button class="filter-btn" onclick="filterCards('numbers')">Numbers</button>
+            <button class="filter-btn" onclick="filterCards('modals')">Modals</button>
+            <button class="filter-btn" onclick="filterCards('questions')">Questions</button>
+            <button class="filter-btn" onclick="filterCards('prepositions')">Prepositions</button>
+        </div>
+        
+        <div class="controls">
+            <button class="btn secondary" onclick="previousCard()">← Previous</button>
+            <button class="btn" onclick="flipCard()">Flip Card</button>
+            <button class="btn secondary" onclick="nextCard()">Next →</button>
+        </div>
+        
+        <div class="progress">
+            <span id="progress">Card 1 of 60</span>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-front">
+                    <div class="card-counter" id="counter-front">1/60</div>
+                    <div class="category" id="category-front">DAYS</div>
+                    <div class="word" id="english-word">MONDAY</div>
+                    <div class="pronunciation" id="pronunciation">[MUHN-day]</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="card-counter" id="counter-back">1/60</div>
+                    <div class="french-word" id="french-word">LUNDI</div>
+                    <div class="sentence" id="english-sentence">"You can borrow on Monday"</div>
+                    <div class="sentence" id="french-sentence">"Vous pouvez emprunter lundi"</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="shuffleCards()">🔀 Shuffle</button>
+            <button class="btn" onclick="resetCards()">🔄 Reset</button>
+            <button class="btn" onclick="showStats()">📊 Stats</button>
+        </div>
+        
+        <div id="stats" style="display:none; background:rgba(255,255,255,0.9); padding:15px; margin:20px 0; border-radius:10px; color:#333;">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 UCA Library Training Materials</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // DAYS OF THE WEEK
+            {
+                english: "MONDAY", pronunciation: "[MUHN-day]", french: "LUNDI",
+                englishSentence: "You can borrow on Monday", frenchSentence: "Vous pouvez emprunter lundi", category: "time"
+            },
+            {
+                english: "TUESDAY", pronunciation: "[TOOZ-day]", french: "MARDI",
+                englishSentence: "Library closes early on Tuesday", frenchSentence: "La bibliothèque ferme tôt mardi", category: "time"
+            },
+            {
+                english: "WEDNESDAY", pronunciation: "[WENZ-day]", french: "MERCREDI",
+                englishSentence: "Your suspension ends Wednesday", frenchSentence: "Votre suspension se termine mercredi", category: "time"
+            },
+            {
+                english: "THURSDAY", pronunciation: "[THURZ-day]", french: "JEUDI",
+                englishSentence: "Book was due Thursday", frenchSentence: "Le livre devait être rendu jeudi", category: "time"
+            },
+            {
+                english: "FRIDAY", pronunciation: "[FRAHY-day]", french: "VENDREDI",
+                englishSentence: "We close at 6 PM on Friday", frenchSentence: "Nous fermons à 18h vendredi", category: "time"
+            },
+            {
+                english: "SATURDAY", pronunciation: "[SAT-er-day]", french: "SAMEDI",
+                englishSentence: "Library is closed Saturday", frenchSentence: "La bibliothèque est fermée samedi", category: "time"
+            },
+            {
+                english: "SUNDAY", pronunciation: "[SUHN-day]", french: "DIMANCHE",
+                englishSentence: "No returns on Sunday", frenchSentence: "Pas de retours le dimanche", category: "time"
+            },
+            
+            // MONTHS
+            {
+                english: "JANUARY", pronunciation: "[JAN-yoo-er-ee]", french: "JANVIER",
+                englishSentence: "New policy starts in January", frenchSentence: "Nouvelle politique en janvier", category: "time"
+            },
+            {
+                english: "FEBRUARY", pronunciation: "[FEB-roo-er-ee]", french: "FÉVRIER",
+                englishSentence: "Exam period is in February", frenchSentence: "Période d'examens en février", category: "time"
+            },
+            {
+                english: "MARCH", pronunciation: "[march]", french: "MARS",
+                englishSentence: "Spring break starts in March", frenchSentence: "Vacances de printemps en mars", category: "time"
+            },
+            {
+                english: "APRIL", pronunciation: "[AY-pruhl]", french: "AVRIL",
+                englishSentence: "Library renovation in April", frenchSentence: "Rénovation de la bibliothèque en avril", category: "time"
+            },
+            {
+                english: "SEPTEMBER", pronunciation: "[sep-TEM-ber]", french: "SEPTEMBRE",
+                englishSentence: "Academic year starts September", frenchSentence: "Année académique commence en septembre", category: "time"
+            },
+            {
+                english: "OCTOBER", pronunciation: "[ok-TOH-ber]", french: "OCTOBRE",
+                englishSentence: "Registration opens in October", frenchSentence: "Inscription ouvre en octobre", category: "time"
+            },
+            
+            // NUMBERS
+            {
+                english: "ONE", pronunciation: "[wuhn]", french: "UN",
+                englishSentence: "One day late", frenchSentence: "Un jour de retard", category: "numbers"
+            },
+            {
+                english: "TWO", pronunciation: "[too]", french: "DEUX",
+                englishSentence: "Two weeks suspension", frenchSentence: "Deux semaines de suspension", category: "numbers"
+            },
+            {
+                english: "THREE", pronunciation: "[three]", french: "TROIS",
+                englishSentence: "Three books maximum", frenchSentence: "Trois livres maximum", category: "numbers"
+            },
+            {
+                english: "FIVE", pronunciation: "[fahyv]", french: "CINQ",
+                englishSentence: "Five days to return", frenchSentence: "Cinq jours pour rendre", category: "numbers"
+            },
+            {
+                english: "TEN", pronunciation: "[ten]", french: "DIX",
+                englishSentence: "Ten books borrowed", frenchSentence: "Dix livres empruntés", category: "numbers"
+            },
+            {
+                english: "FIFTEEN", pronunciation: "[fif-TEEN]", french: "QUINZE",
+                englishSentence: "Fifteen minutes to close", frenchSentence: "Quinze minutes avant fermeture", category: "numbers"
+            },
+            {
+                english: "TWENTY", pronunciation: "[TWEN-tee]", french: "VINGT",
+                englishSentence: "Twenty pages to copy", frenchSentence: "Vingt pages à copier", category: "numbers"
+            },
+            {
+                english: "THIRTY", pronunciation: "[THUR-tee]", french: "TRENTE",
+                englishSentence: "Thirty days overdue", frenchSentence: "Trente jours de retard", category: "numbers"
+            },
+            
+            // MODAL VERBS
+            {
+                english: "CAN", pronunciation: "[kan]", french: "POUVOIR (positif)",
+                englishSentence: "You can borrow three books", frenchSentence: "Vous pouvez emprunter trois livres", category: "modals"
+            },
+            {
+                english: "CANNOT / CAN'T", pronunciation: "[KAN-ot / kant]", french: "NE PAS POUVOIR",
+                englishSentence: "You cannot borrow today", frenchSentence: "Vous ne pouvez pas emprunter aujourd'hui", category: "modals"
+            },
+            {
+                english: "MUST", pronunciation: "[muhst]", french: "DEVOIR",
+                englishSentence: "You must return the book", frenchSentence: "Vous devez rendre le livre", category: "modals"
+            },
+            {
+                english: "SHOULD", pronunciation: "[shood]", french: "DEVRAIT",
+                englishSentence: "You should renew online", frenchSentence: "Vous devriez renouveler en ligne", category: "modals"
+            },
+            {
+                english: "MAY", pronunciation: "[may]", french: "PEUT-ÊTRE / PERMISSION",
+                englishSentence: "You may borrow tomorrow", frenchSentence: "Vous pourrez emprunter demain", category: "modals"
+            },
+            {
+                english: "WILL", pronunciation: "[wil]", french: "FUTUR",
+                englishSentence: "Suspension will end Friday", frenchSentence: "La suspension finira vendredi", category: "modals"
+            },
+            {
+                english: "WON'T", pronunciation: "[wohnt]", french: "NE... PAS (futur)",
+                englishSentence: "System won't let you borrow", frenchSentence: "Le système ne vous laissera pas emprunter", category: "modals"
+            },
+            
+            // QUESTION WORDS
+            {
+                english: "WHEN", pronunciation: "[wen]", french: "QUAND",
+                englishSentence: "When can I borrow again?", frenchSentence: "Quand puis-je emprunter à nouveau?", category: "questions"
+            },
+            {
+                english: "WHY", pronunciation: "[wahy]", french: "POURQUOI",
+                englishSentence: "Why can't I borrow?", frenchSentence: "Pourquoi ne puis-je pas emprunter?", category: "questions"
+            },
+            {
+                english: "WHAT", pronunciation: "[wot]", french: "QUE / QUOI",
+                englishSentence: "What is your student number?", frenchSentence: "Quel est votre numéro étudiant?", category: "questions"
+            },
+            {
+                english: "WHERE", pronunciation: "[wair]", french: "OÙ",
+                englishSentence: "Where is the return box?", frenchSentence: "Où est la boîte de retour?", category: "questions"
+            },
+            {
+                english: "HOW LONG", pronunciation: "[how lawng]", french: "COMBIEN DE TEMPS",
+                englishSentence: "How long is the suspension?", frenchSentence: "Combien de temps dure la suspension?", category: "questions"
+            },
+            {
+                english: "HOW MANY", pronunciation: "[how MEN-ee]", french: "COMBIEN",
+                englishSentence: "How many days late?", frenchSentence: "Combien de jours de retard?", category: "questions"
+            },
+            {
+                english: "WHICH", pronunciation: "[wich]", french: "LEQUEL / QUEL",
+                englishSentence: "Which book do you want?", frenchSentence: "Quel livre voulez-vous?", category: "questions"
+            },
+            
+            // PREPOSITIONS OF TIME
+            {
+                english: "ON MONDAY", pronunciation: "[on MUHN-day]", french: "LUNDI / LE LUNDI",
+                englishSentence: "Library opens on Monday", frenchSentence: "La bibliothèque ouvre lundi", category: "prepositions"
+            },
+            {
+                english: "IN SEPTEMBER", pronunciation: "[in sep-TEM-ber]", french: "EN SEPTEMBRE",
+                englishSentence: "New semester starts in September", frenchSentence: "Nouveau semestre en septembre", category: "prepositions"
+            },
+            {
+                english: "AT 9 AM", pronunciation: "[at nahyn ay em]", french: "À 9H",
+                englishSentence: "We open at 9 AM", frenchSentence: "Nous ouvrons à 9h", category: "prepositions"
+            },
+            {
+                english: "UNTIL FRIDAY", pronunciation: "[uhn-TIL FRAHY-day]", french: "JUSQU'À VENDREDI",
+                englishSentence: "Suspended until Friday", frenchSentence: "Suspendu jusqu'à vendredi", category: "prepositions"
+            },
+            {
+                english: "FOR 5 DAYS", pronunciation: "[for fahyv dayz]", french: "PENDANT 5 JOURS",
+                englishSentence: "Suspension for 5 days", frenchSentence: "Suspension pendant 5 jours", category: "prepositions"
+            },
+            {
+                english: "AFTER 3 PM", pronunciation: "[AF-ter three pee em]", french: "APRÈS 15H",
+                englishSentence: "Return after 3 PM", frenchSentence: "Retour après 15h", category: "prepositions"
+            },
+            {
+                english: "BEFORE CLOSING", pronunciation: "[bi-FOR KLOH-zing]", french: "AVANT LA FERMETURE",
+                englishSentence: "Return before closing", frenchSentence: "Rendre avant la fermeture", category: "prepositions"
+            },
+            {
+                english: "DURING EXAMS", pronunciation: "[DOOR-ing ig-zamz]", french: "PENDANT LES EXAMENS",
+                englishSentence: "Library busy during exams", frenchSentence: "Bibliothèque occupée pendant les examens", category: "prepositions"
+            },
+            
+            // TIME EXPRESSIONS
+            {
+                english: "TODAY", pronunciation: "[tuh-DAY]", french: "AUJOURD'HUI",
+                englishSentence: "Library closes early today", frenchSentence: "Bibliothèque ferme tôt aujourd'hui", category: "time"
+            },
+            {
+                english: "TOMORROW", pronunciation: "[tuh-MOR-oh]", french: "DEMAIN",
+                englishSentence: "Come back tomorrow", frenchSentence: "Revenez demain", category: "time"
+            },
+            {
+                english: "YESTERDAY", pronunciation: "[YES-ter-day]", french: "HIER",
+                englishSentence: "Book was due yesterday", frenchSentence: "Le livre devait être rendu hier", category: "time"
+            },
+            {
+                english: "NEXT WEEK", pronunciation: "[nekst week]", french: "LA SEMAINE PROCHAINE",
+                englishSentence: "Suspension ends next week", frenchSentence: "Suspension finit la semaine prochaine", category: "time"
+            },
+            {
+                english: "LAST WEEK", pronunciation: "[last week]", french: "LA SEMAINE DERNIÈRE",
+                englishSentence: "Book was returned last week", frenchSentence: "Livre rendu la semaine dernière", category: "time"
+            },
+            {
+                english: "THIS MORNING", pronunciation: "[this MOR-ning]", french: "CE MATIN",
+                englishSentence: "Email sent this morning", frenchSentence: "Email envoyé ce matin", category: "time"
+            },
+            {
+                english: "RIGHT NOW", pronunciation: "[rahyt now]", french: "MAINTENANT",
+                englishSentence: "System is down right now", frenchSentence: "Système en panne maintenant", category: "time"
+            },
+            
+            // USEFUL ADJECTIVES
+            {
+                english: "AVAILABLE", pronunciation: "[uh-VAY-luh-buhl]", french: "DISPONIBLE",
+                englishSentence: "Book is available now", frenchSentence: "Le livre est disponible maintenant", category: "adjectives"
+            },
+            {
+                english: "BUSY", pronunciation: "[BIZ-ee]", french: "OCCUPÉ",
+                englishSentence: "Library is very busy", frenchSentence: "La bibliothèque est très occupée", category: "adjectives"
+            },
+            {
+                english: "CLOSED", pronunciation: "[klohzd]", french: "FERMÉ",
+                englishSentence: "Library is closed Sunday", frenchSentence: "Bibliothèque fermée dimanche", category: "adjectives"
+            },
+            {
+                english: "OPEN", pronunciation: "[OH-puhn]", french: "OUVERT",
+                englishSentence: "We are open until 8", frenchSentence: "Nous sommes ouverts jusqu'à 20h", category: "adjectives"
+            },
+            {
+                english: "OVERDUE", pronunciation: "[OH-ver-doo]", french: "EN RETARD",
+                englishSentence: "Your books are overdue", frenchSentence: "Vos livres sont en retard", category: "adjectives"
+            },
+            {
+                english: "RESERVED", pronunciation: "[ri-ZURVD]", french: "RÉSERVÉ",
+                englishSentence: "This book is reserved", frenchSentence: "Ce livre est réservé", category: "adjectives"
+            },
+            
+            // COMMON VERBS
+            {
+                english: "RETURN", pronunciation: "[ri-TURN]", french: "RENDRE",
+                englishSentence: "Please return the book", frenchSentence: "Veuillez rendre le livre", category: "verbs"
+            },
+            {
+                english: "BORROW", pronunciation: "[BOR-oh]", french: "EMPRUNTER",
+                englishSentence: "You can borrow 5 books", frenchSentence: "Vous pouvez emprunter 5 livres", category: "verbs"
+            },
+            {
+                english: "RENEW", pronunciation: "[ri-NEW]", french: "RENOUVELER",
+                englishSentence: "Renew online or here", frenchSentence: "Renouveler en ligne ou ici", category: "verbs"
+            },
+            {
+                english: "RESERVE", pronunciation: "[ri-ZURV]", french: "RÉSERVER",
+                englishSentence: "I can reserve the book", frenchSentence: "Je peux réserver le livre", category: "verbs"
+            },
+            {
+                english: "WAIT", pronunciation: "[wayt]", french: "ATTENDRE",
+                englishSentence: "You must wait 3 days", frenchSentence: "Vous devez attendre 3 jours", category: "verbs"
+            },
+            {
+                english: "HELP", pronunciation: "[help]", french: "AIDER",
+                englishSentence: "How can I help you?", frenchSentence: "Comment puis-je vous aider?", category: "verbs"
+            }
+        ];
+
+        let currentCards = [...flashcards];
+        let currentCard = 0;
+        let isFlipped = false;
+
+        function updateCard() {
+            if (currentCards.length === 0) return;
+            
+            const card = currentCards[currentCard];
+            document.getElementById('english-word').textContent = card.english;
+            document.getElementById('pronunciation').textContent = card.pronunciation;
+            document.getElementById('french-word').textContent = card.french;
+            document.getElementById('english-sentence').textContent = card.englishSentence;
+            document.getElementById('french-sentence').textContent = card.frenchSentence;
+            document.getElementById('category-front').textContent = card.category.toUpperCase();
+            document.getElementById('progress').textContent = `Card ${currentCard + 1} of ${currentCards.length}`;
+            document.getElementById('counter-front').textContent = `${currentCard + 1}/${currentCards.length}`;
+            document.getElementById('counter-back').textContent = `${currentCard + 1}/${currentCards.length}`;
+            
+            // Reset flip state
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentCards.length === 0) return;
+            currentCard = (currentCard + 1) % currentCards.length;
+            updateCard();
+        }
+
+        function previousCard() {
+            if (currentCards.length === 0) return;
+            currentCard = (currentCard - 1 + currentCards.length) % currentCards.length;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            for (let i = currentCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentCards[i], currentCards[j]] = [currentCards[j], currentCards[i]];
+            }
+            currentCard = 0;
+            updateCard();
+        }
+
+        function resetCards() {
+            currentCards = [...flashcards];
+            currentCard = 0;
+            updateCard();
+            // Reset filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.filter-btn').classList.add('active');
+        }
+
+        function filterCards(category) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                currentCards = [...flashcards];
+            } else {
+                currentCards = flashcards.filter(card => card.category === category);
+            }
+            currentCard = 0;
+            updateCard();
+        }
+
+        function showStats() {
+            const stats = document.getElementById('stats');
+            const categories = {};
+            
+            flashcards.forEach(card => {
+                categories[card.category] = (categories[card.category] || 0) + 1;
+            });
+            
+            let statsHTML = '<h3>📊 Card Statistics</h3>';
+            Object.entries(categories).forEach(([cat, count]) => {
+                statsHTML += `<strong>${cat.toUpperCase()}:</strong> ${count} cards<br>`;
+            });
+            statsHTML += `<br><strong>TOTAL:</strong> ${flashcards.length} cards`;
+            
+            stats.innerHTML = statsHTML;
+            stats.style.display = stats.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
