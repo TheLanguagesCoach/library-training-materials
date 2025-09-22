@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2 Flashcards - Phone Communication</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .controls {
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: #8b5a96;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #6d4570;
+            transform: translateY(-2px);
+        }
+        
+        .btn.secondary {
+            background: #556b8d;
+        }
+        
+        .btn.secondary:hover {
+            background: #425171;
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 0 auto;
+            width: 420px;
+            height: 280px;
+        }
+        
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .flashcard-front {
+            background: white;
+            color: #333;
+        }
+        
+        .flashcard-back {
+            background: #2c5aa0;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .word {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .pronunciation {
+            font-size: 1.1em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .back .pronunciation {
+            color: #bdc3c7;
+        }
+        
+        .sentence {
+            font-size: 1em;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border-left: 4px solid #8b5a96;
+            text-align: center;
+        }
+        
+        .french-word {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            text-align: center;
+        }
+        
+        .category {
+            font-size: 0.9em;
+            background: rgba(139,90,150,0.8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .progress {
+            margin: 20px 0;
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .card-counter {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        
+        .filter-buttons {
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .phone-icon {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="index.html" style="color: white; text-decoration: none;">UCA Library Training</a></h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="day1-vocabulary.html">Day 1 Vocabulary</a></li>
+                    <li><a href="day2-vocabulary.html">Day 2 Vocabulary</a></li>
+                    <li><a href="day1-flashcards.html">Day 1 Flashcards</a></li>
+                    <li><a href="day2-flashcards.html" class="active">Day 2 Flashcards</a></li>
+                    <li><a href="lesson-plans.html">Lesson Plans</a></li>
+                    <li><a href="activities.html">Activities</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>📞 Day 2 - Phone Communication Cards</h1>
+        
+        <div class="instructions">
+            <strong>📞 Essential Phone Vocabulary for Library Communication</strong><br>
+            Opening phrases, phone problems, taking information, and professional call handling
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterCards('all')">All</button>
+            <button class="filter-btn" onclick="filterCards('opening')">Opening</button>
+            <button class="filter-btn" onclick="filterCards('problems')">Problems</button>
+            <button class="filter-btn" onclick="filterCards('information')">Information</button>
+            <button class="filter-btn" onclick="filterCards('closing')">Closing</button>
+        </div>
+        
+        <div class="controls">
+            <button class="btn secondary" onclick="previousCard()">← Previous</button>
+            <button class="btn" onclick="flipCard()">Flip Card</button>
+            <button class="btn secondary" onclick="nextCard()">Next →</button>
+        </div>
+        
+        <div class="progress">
+            <span id="progress">Card 1 of 30</span>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-front">
+                    <div class="card-counter" id="counter-front">1/30</div>
+                    <div class="category" id="category-front">OPENING</div>
+                    <div class="word" id="english-word">CÔTE D'AZUR UNIVERSITY LIBRARY</div>
+                    <div class="pronunciation" id="pronunciation">[koht dah-ZEER yoo-nuh-VUR-suh-tee LAY-brer-ee]</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="card-counter" id="counter-back">1/30</div>
+                    <div class="french-word" id="french-word">BIBLIOTHÈQUE UNIVERSITÉ CÔTE D'AZUR</div>
+                    <div class="sentence" id="english-sentence">"Hello, Côte d'Azur University Library"</div>
+                    <div class="sentence" id="french-sentence">"Bonjour, Bibliothèque Université Côte d'Azur"</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="shuffleCards()">🔀 Shuffle</button>
+            <button class="btn" onclick="resetCards()">🔄 Reset</button>
+            <button class="btn" onclick="showStats()">📊 Stats</button>
+        </div>
+        
+        <div id="stats" style="display:none; background:rgba(255,255,255,0.9); padding:15px; margin:20px 0; border-radius:10px; color:#333;">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 UCA Library Training Materials</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // OPENING PHRASES
+            {
+                english: "CÔTE D'AZUR UNIVERSITY LIBRARY",
+                pronunciation: "[koht dah-ZEER yoo-nuh-VUR-suh-tee LAY-brer-ee]",
+                french: "BIBLIOTHÈQUE UNIVERSITÉ CÔTE D'AZUR",
+                englishSentence: "Hello, Côte d'Azur University Library",
+                frenchSentence: "Bonjour, Bibliothèque Université Côte d'Azur",
+                category: "opening"
+            },
+            {
+                english: "THIS IS [NAME]",
+                pronunciation: "[this iz]",
+                french: "ICI [NOM]",
+                englishSentence: "This is Marie speaking",
+                frenchSentence: "Ici Marie",
+                category: "opening"
+            },
+            {
+                english: "HOW CAN I HELP YOU?",
+                pronunciation: "[how kan ay help yoo]",
+                french: "COMMENT PUIS-JE VOUS AIDER?",
+                englishSentence: "How can I help you today?",
+                frenchSentence: "Comment puis-je vous aider aujourd'hui?",
+                category: "opening"
+            },
+            {
+                english: "ONE MOMENT PLEASE",
+                pronunciation: "[wuhn MOH-muhnt pleez]",
+                french: "UN MOMENT S'IL VOUS PLAÎT",
+                englishSentence: "One moment please, let me check",
+                frenchSentence: "Un moment s'il vous plaît, je vérifie",
+                category: "opening"
+            },
+            
+            // COMMUNICATION PROBLEMS
+            {
+                english: "CAN YOU REPEAT PLEASE?",
+                pronunciation: "[kan yoo ri-PEET pleez]",
+                french: "POUVEZ-VOUS RÉPÉTER?",
+                englishSentence: "Sorry, can you repeat please?",
+                frenchSentence: "Désolé, pouvez-vous répéter?",
+                category: "problems"
+            },
+            {
+                english: "I DON'T UNDERSTAND",
+                pronunciation: "[ay dohnt uhn-der-STAND]",
+                french: "JE NE COMPRENDS PAS",
+                englishSentence: "Sorry, I don't understand",
+                frenchSentence: "Désolé, je ne comprends pas",
+                category: "problems"
+            },
+            {
+                english: "SPEAK MORE SLOWLY",
+                pronunciation: "[speek mor SLOH-lee]",
+                french: "PARLEZ PLUS LENTEMENT",
+                englishSentence: "Can you speak more slowly?",
+                frenchSentence: "Pouvez-vous parler plus lentement?",
+                category: "problems"
+            },
+            {
+                english: "CAN YOU SPELL THAT?",
+                pronunciation: "[kan yoo spel that]",
+                french: "POUVEZ-VOUS ÉPELER?",
+                englishSentence: "Can you spell that please?",
+                frenchSentence: "Pouvez-vous épeler s'il vous plaît?",
+                category: "problems"
+            },
+            {
+                english: "THE LINE IS BAD",
+                pronunciation: "[thuh layn iz bad]",
+                french: "LA LIGNE EST MAUVAISE",
+                englishSentence: "Sorry, the line is bad",
+                frenchSentence: "Désolé, la ligne est mauvaise",
+                category: "problems"
+            },
+            {
+                english: "CAN YOU SPEAK LOUDER?",
+                pronunciation: "[kan yoo speek LOW-der]",
+                french: "POUVEZ-VOUS PARLER PLUS FORT?",
+                englishSentence: "Can you speak louder please?",
+                frenchSentence: "Pouvez-vous parler plus fort?",
+                category: "problems"
+            },
+            {
+                english: "I WILL CALL YOU BACK",
+                pronunciation: "[ay wil kol yoo bak]",
+                french: "JE VOUS RAPPELLERAI",
+                englishSentence: "I will call you back",
+                frenchSentence: "Je vous rappellerai",
+                category: "problems"
+            },
+            
+            // TAKING INFORMATION
+            {
+                english: "WHAT IS YOUR NAME?",
+                pronunciation: "[wuht iz yoor naym]",
+                french: "QUEL EST VOTRE NOM?",
+                englishSentence: "What is your name please?",
+                frenchSentence: "Quel est votre nom s'il vous plaît?",
+                category: "information"
+            },
+            {
+                english: "YOUR STUDENT NUMBER PLEASE?",
+                pronunciation: "[yoor STOO-dent NUHM-ber pleez]",
+                french: "VOTRE NUMÉRO ÉTUDIANT?",
+                englishSentence: "Your student number please?",
+                frenchSentence: "Votre numéro étudiant s'il vous plaît?",
+                category: "information"
+            },
+            {
+                english: "CAN YOU REPEAT THE TITLE?",
+                pronunciation: "[kan yoo ri-PEET thuh TAY-tuhl]",
+                french: "POUVEZ-VOUS RÉPÉTER LE TITRE?",
+                englishSentence: "Can you repeat the book title?",
+                frenchSentence: "Pouvez-vous répéter le titre du livre?",
+                category: "information"
+            },
+            {
+                english: "LET ME CHECK",
+                pronunciation: "[let mee chek]",
+                french: "LAISSEZ-MOI VÉRIFIER",
+                englishSentence: "Let me check that for you",
+                frenchSentence: "Laissez-moi vérifier pour vous",
+                category: "information"
+            },
+            
+            // COMMON QUESTIONS & ANSWERS
+            {
+                english: "WHAT TIME DO YOU OPEN?",
+                pronunciation: "[wuht taym doo yoo OH-puhn]",
+                french: "À QUELLE HEURE OUVREZ-VOUS?",
+                englishSentence: "What time do you open?",
+                frenchSentence: "À quelle heure ouvrez-vous?",
+                category: "information"
+            },
+            {
+                english: "WE OPEN AT 8 AM",
+                pronunciation: "[wee OH-puhn at ayt ay em]",
+                french: "NOUS OUVRONS À 8H",
+                englishSentence: "We open at 8 AM",
+                frenchSentence: "Nous ouvrons à 8 heures",
+                category: "information"
+            },
+            {
+                english: "WHEN DO YOU CLOSE?",
+                pronunciation: "[wen doo yoo klohz]",
+                french: "QUAND FERMEZ-VOUS?",
+                englishSentence: "When do you close?",
+                frenchSentence: "Quand fermez-vous?",
+                category: "information"
+            },
+            {
+                english: "WE CLOSE AT 8 PM",
+                pronunciation: "[wee klohz at ayt pee em]",
+                french: "NOUS FERMONS À 20H",
+                englishSentence: "We close at 8 PM",
+                frenchSentence: "Nous fermons à 20 heures",
+                category: "information"
+            },
+            {
+                english: "DO YOU HAVE THE BOOK?",
+                pronunciation: "[doo yoo hav thuh book]",
+                french: "AVEZ-VOUS LE LIVRE?",
+                englishSentence: "Do you have the book [title]?",
+                frenchSentence: "Avez-vous le livre [titre]?",
+                category: "information"
+            },
+            {
+                english: "YES, WE HAVE IT",
+                pronunciation: "[yes wee hav it]",
+                french: "OUI, NOUS L'AVONS",
+                englishSentence: "Yes, we have it available",
+                frenchSentence: "Oui, nous l'avons disponible",
+                category: "information"
+            },
+            {
+                english: "NO, SOMEONE BORROWED IT",
+                pronunciation: "[noh SUHM-wuhn BOR-ohd it]",
+                french: "NON, QUELQU'UN L'A EMPRUNTÉ",
+                englishSentence: "No, someone borrowed it",
+                frenchSentence: "Non, quelqu'un l'a emprunté",
+                category: "information"
+            },
+            {
+                english: "CAN I RENEW MY BOOKS?",
+                pronunciation: "[kan ay ri-NEW mahy books]",
+                french: "PUIS-JE RENOUVELER MES LIVRES?",
+                englishSentence: "Can I renew my books?",
+                frenchSentence: "Puis-je renouveler mes livres?",
+                category: "information"
+            },
+            {
+                english: "YOU HAVE A SUSPENSION",
+                pronunciation: "[yoo hav uh suh-SPEN-shuhn]",
+                french: "VOUS AVEZ UNE SUSPENSION",
+                englishSentence: "You have a suspension until [date]",
+                frenchSentence: "Vous avez une suspension jusqu'au [date]",
+                category: "information"
+            },
+            
+            // PHONE VOCABULARY
+            {
+                english: "LINE BUSY",
+                pronunciation: "[layn BIZ-ee]",
+                french: "LIGNE OCCUPÉE",
+                englishSentence: "The line is busy",
+                frenchSentence: "La ligne est occupée",
+                category: "problems"
+            },
+            {
+                english: "CALL BACK",
+                pronunciation: "[kol bak]",
+                french: "RAPPELER",
+                englishSentence: "I will call back later",
+                frenchSentence: "Je rappellerai plus tard",
+                category: "problems"
+            },
+            {
+                english: "MESSAGE",
+                pronunciation: "[MES-ij]",
+                french: "MESSAGE",
+                englishSentence: "Can I take a message?",
+                frenchSentence: "Puis-je prendre un message?",
+                category: "information"
+            },
+            {
+                english: "TRANSFER",
+                pronunciation: "[TRANS-fur]",
+                french: "TRANSFÉRER",
+                englishSentence: "I will transfer you",
+                frenchSentence: "Je vais vous transférer",
+                category: "information"
+            },
+            {
+                english: "HOLD/WAIT",
+                pronunciation: "[hohld / wayt]",
+                french: "ATTENDRE/PATIENTER",
+                englishSentence: "Please hold on",
+                frenchSentence: "Veuillez patienter",
+                category: "information"
+            },
+            
+            // CLOSING PHRASES
+            {
+                english: "IS THERE ANYTHING ELSE?",
+                pronunciation: "[iz ther EH-nee-thing els]",
+                french: "Y A-T-IL AUTRE CHOSE?",
+                englishSentence: "Is there anything else I can help with?",
+                frenchSentence: "Y a-t-il autre chose que je puisse faire?",
+                category: "closing"
+            },
+            {
+                english: "THANK YOU FOR CALLING",
+                pronunciation: "[thank yoo for KOL-ing]",
+                french: "MERCI D'AVOIR APPELÉ",
+                englishSentence: "Thank you for calling",
+                frenchSentence: "Merci d'avoir appelé",
+                category: "closing"
+            },
+            {
+                english: "HAVE A GOOD DAY",
+                pronunciation: "[hav uh good day]",
+                french: "BONNE JOURNÉE",
+                englishSentence: "Have a good day",
+                frenchSentence: "Bonne journée",
+                category: "closing"
+            },
+            {
+                english: "GOODBYE",
+                pronunciation: "[good-BAY]",
+                french: "AU REVOIR",
+                englishSentence: "Goodbye",
+                frenchSentence: "Au revoir",
+                category: "closing"
+            }
+        ];
+
+        let currentCards = [...flashcards];
+        let currentCard = 0;
+        let isFlipped = false;
+
+        function updateCard() {
+            if (currentCards.length === 0) return;
+            
+            const card = currentCards[currentCard];
+            document.getElementById('english-word').textContent = card.english;
+            document.getElementById('pronunciation').textContent = card.pronunciation;
+            document.getElementById('french-word').textContent = card.french;
+            document.getElementById('english-sentence').textContent = card.englishSentence;
+            document.getElementById('french-sentence').textContent = card.frenchSentence;
+            document.getElementById('category-front').textContent = card.category.toUpperCase();
+            document.getElementById('progress').textContent = `Card ${currentCard + 1} of ${currentCards.length}`;
+            document.getElementById('counter-front').textContent = `${currentCard + 1}/${currentCards.length}`;
+            document.getElementById('counter-back').textContent = `${currentCard + 1}/${currentCards.length}`;
+            
+            // Reset flip state
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentCards.length === 0) return;
+            currentCard = (currentCard + 1) % currentCards.length;
+            updateCard();
+        }
+
+        function previousCard() {
+            if (currentCards.length === 0) return;
+            currentCard = (currentCard - 1 + currentCards.length) % currentCards.length;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            for (let i = currentCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentCards[i], currentCards[j]] = [currentCards[j], currentCards[i]];
+            }
+            currentCard = 0;
+            updateCard();
+        }
+
+        function resetCards() {
+            currentCards = [...flashcards];
+            currentCard = 0;
+            updateCard();
+            // Reset filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.filter-btn').classList.add('active');
+        }
+
+        function filterCards(category) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                currentCards = [...flashcards];
+            } else {
+                currentCards = flashcards.filter(card => card.category === category);
+            }
+            currentCard = 0;
+            updateCard();
+        }
+
+        function showStats() {
+            const stats = document.getElementById('stats');
+            const categories = {};
+            
+            flashcards.forEach(card => {
+                categories[card.category] = (categories[card.category] || 0) + 1;
+            });
+            
+            let statsHTML = '<h3>📞 Phone Call Statistics</h3>';
+            Object.entries(categories).forEach(([cat, count]) => {
+                statsHTML += `<strong>${cat.toUpperCase()}:</strong> ${count} cards<br>`;
+            });
+            statsHTML += `<br><strong>TOTAL:</strong> ${flashcards.length} cards`;
+            
+            stats.innerHTML = statsHTML;
+            stats.style.display = stats.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
