@@ -6,17 +6,162 @@
     <title>Day 1 Flashcards - Face-to-Face Communication</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Add your flashcard-specific styles here */
-        .flashcard-page {
+        body {
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
             min-height: 100vh;
-            padding-top: 0;
         }
         
-        /* Copy your flashcard styles from the existing HTML files */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .controls {
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .btn.secondary {
+            background: #008CBA;
+        }
+        
+        .btn.secondary:hover {
+            background: #007B9A;
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 0 auto;
+            width: 400px;
+            height: 250px;
+        }
+        
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .flashcard-front {
+            background: white;
+            color: #333;
+        }
+        
+        .flashcard-back {
+            background: #2c3e50;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .word {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .pronunciation {
+            font-size: 1.2em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .back .pronunciation {
+            color: #bdc3c7;
+        }
+        
+        .sentence {
+            font-size: 1.1em;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .french-word {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+        
+        .progress {
+            margin: 20px 0;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .card-counter {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
-<body class="flashcard-page">
+<body>
     <header>
         <nav>
             <div class="nav-container">
@@ -34,9 +179,225 @@
         </nav>
     </header>
 
-    <!-- Insert your flashcard HTML content here -->
-    <!-- Copy the content from your existing Day 1 flashcard files -->
+    <div class="container">
+        <h1>📚 Library Training Flashcards - Day 1</h1>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong> Click the card to flip it. Use the buttons to navigate through cards.
+        </div>
+        
+        <div class="controls">
+            <button class="btn secondary" onclick="previousCard()">← Previous</button>
+            <button class="btn" onclick="flipCard()">Flip Card</button>
+            <button class="btn secondary" onclick="nextCard()">Next →</button>
+        </div>
+        
+        <div class="progress">
+            <span id="progress">Card 1 of 15</span>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-front">
+                    <div class="card-counter" id="counter-front">1/15</div>
+                    <div class="word" id="english-word">LATE RETURN</div>
+                    <div class="pronunciation" id="pronunciation">[layt ri-TURN]</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="card-counter" id="counter-back">1/15</div>
+                    <div class="french-word" id="french-word">RETARD</div>
+                    <div class="sentence" id="english-sentence">"Your book was late"</div>
+                    <div class="sentence" id="french-sentence">"Le livre était en retard"</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="shuffleCards()">🔀 Shuffle</button>
+            <button class="btn" onclick="resetCards()">🔄 Reset</button>
+        </div>
+    </div>
 
-    <script src="js/flashcards.js"></script>
+    <footer>
+        <p>&copy; 2024 UCA Library Training Materials</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            {
+                english: "LATE RETURN",
+                pronunciation: "[layt ri-TURN]",
+                french: "RETARD",
+                englishSentence: "Your book was late",
+                frenchSentence: "Le livre était en retard"
+            },
+            {
+                english: "SUSPENSION",
+                pronunciation: "[suh-SPEN-shuhn]",
+                french: "SUSPENSION",
+                englishSentence: "You have a suspension",
+                frenchSentence: "Vous avez une suspension"
+            },
+            {
+                english: "BORROWING PRIVILEGES",
+                pronunciation: "[BOR-oh-ing PRIV-uh-lij-iz]",
+                french: "PRIVILÈGES D'EMPRUNT",
+                englishSentence: "Your borrowing privileges are blocked",
+                frenchSentence: "Vos privilèges d'emprunt sont bloqués"
+            },
+            {
+                english: "DUE DATE",
+                pronunciation: "[doo dayt]",
+                french: "ÉCHÉANCE",
+                englishSentence: "The due date was Monday",
+                frenchSentence: "L'échéance était lundi"
+            },
+            {
+                english: "TO RENEW",
+                pronunciation: "[tuh ri-NEW]",
+                french: "RENOUVELER",
+                englishSentence: "You can renew online",
+                frenchSentence: "Vous pouvez renouveler en ligne"
+            },
+            {
+                english: "REMINDER",
+                pronunciation: "[ri-MAYN-der]",
+                french: "RAPPEL",
+                englishSentence: "We send email reminders",
+                frenchSentence: "Nous envoyons des rappels par email"
+            },
+            {
+                english: "CHECK YOUR ACCOUNT",
+                pronunciation: "[chek yoor uh-KOWNT]",
+                french: "VÉRIFIER VOTRE COMPTE",
+                englishSentence: "Let me check your account",
+                frenchSentence: "Je vérifie votre compte"
+            },
+            {
+                english: "EXTEND THE LOAN",
+                pronunciation: "[ik-STEND thuh lohn]",
+                french: "PROLONGER LE PRÊT",
+                englishSentence: "You can extend the loan",
+                frenchSentence: "Vous pouvez prolonger le prêt"
+            },
+            {
+                english: "AUTOMATIC",
+                pronunciation: "[aw-tuh-MAT-ik]",
+                french: "AUTOMATIQUE",
+                englishSentence: "The system is automatic",
+                frenchSentence: "Le système est automatique"
+            },
+            {
+                english: "I UNDERSTAND",
+                pronunciation: "[ay uhn-der-STAND]",
+                french: "JE COMPRENDS",
+                englishSentence: "I understand your frustration",
+                frenchSentence: "Je comprends votre frustration"
+            },
+            {
+                english: "READ HERE",
+                pronunciation: "[reed heer]",
+                french: "LIRE ICI",
+                englishSentence: "You can read here",
+                frenchSentence: "Vous pouvez lire ici"
+            },
+            {
+                english: "UNTIL MONDAY",
+                pronunciation: "[uhn-TIL MUHN-day]",
+                french: "JUSQU'À LUNDI",
+                englishSentence: "Suspension until Monday",
+                frenchSentence: "Suspension jusqu'à lundi"
+            },
+            {
+                english: "SAME TIME",
+                pronunciation: "[saym taym]",
+                french: "MÊME DURÉE",
+                englishSentence: "Same time as late",
+                frenchSentence: "Même durée que le retard"
+            },
+            {
+                english: "DIGITAL VERSION",
+                pronunciation: "[DIJ-uh-tuhl VUR-zhuhn]",
+                french: "VERSION NUMÉRIQUE",
+                englishSentence: "We have digital version",
+                frenchSentence: "Nous avons la version numérique"
+            },
+            {
+                english: "OTHER COPIES",
+                pronunciation: "[UH-ther KOP-eez]",
+                french: "AUTRES EXEMPLAIRES",
+                englishSentence: "Are there other copies?",
+                frenchSentence: "Y a-t-il d'autres exemplaires?"
+            }
+        ];
+
+        let currentCard = 0;
+        let isFlipped = false;
+
+        function updateCard() {
+            const card = flashcards[currentCard];
+            document.getElementById('english-word').textContent = card.english;
+            document.getElementById('pronunciation').textContent = card.pronunciation;
+            document.getElementById('french-word').textContent = card.french;
+            document.getElementById('english-sentence').textContent = card.englishSentence;
+            document.getElementById('french-sentence').textContent = card.frenchSentence;
+            document.getElementById('progress').textContent = `Card ${currentCard + 1} of ${flashcards.length}`;
+            document.getElementById('counter-front').textContent = `${currentCard + 1}/${flashcards.length}`;
+            document.getElementById('counter-back').textContent = `${currentCard + 1}/${flashcards.length}`;
+            
+            // Reset flip state
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            currentCard = (currentCard + 1) % flashcards.length;
+            updateCard();
+        }
+
+        function previousCard() {
+            currentCard = (currentCard - 1 + flashcards.length) % flashcards.length;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentCard = 0;
+            updateCard();
+        }
+
+        function resetCards() {
+            currentCard = 0;
+            updateCard();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
 </body>
 </html>
