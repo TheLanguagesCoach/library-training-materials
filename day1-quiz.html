@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1 QCM - Face-to-Face Communication</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .student-info {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .student-info input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .question {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .options {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8fafc;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e6f2ff;
+        }
+        
+        .option.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        
+        .option.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 0.8rem;
+            transform: scale(1.2);
+        }
+        
+        .quiz-actions {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .quiz-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+        
+        .quiz-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .quiz-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 20px;
+            border-radius: 8px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .results {
+            display: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .grade {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .results-actions {
+            margin-top: 2rem;
+        }
+        
+        .share-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .email-btn {
+            background: #28a745;
+            color: white;
+            border: 2px solid #28a745;
+        }
+
+        .email-btn:hover {
+            background: #218838;
+            border-color: #218838;
+        }
+
+        /* Navigation Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-container h1 {
+            margin: 0;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .nav-container ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-container a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container a:hover,
+        .nav-container a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1><a href="index.html" style="color: white; text-decoration: none;">UCA Library Training</a></h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="day1-vocabulary.html">Day 1 Vocabulary</a></li>
+                    <li><a href="day2-vocabulary.html">Day 2 Vocabulary</a></li>
+                    <li><a href="day1-flashcards.html">Day 1 Flashcards</a></li>
+                    <li><a href="day2-flashcards.html">Day 2 Flashcards</a></li>
+                    <li><a href="grammar-flashcards.html">Grammar Flashcards</a></li>
+                    <li><a href="activities.html">Classroom Activities</a></li>
+                    <li><a href="day1-quiz.html" class="active">Day 1 Quiz</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="quiz-container">
+            <h1>Day 1 QCM - Communication en face à face</h1>
+            <p><strong>Instructions:</strong> Choisissez la bonne réponse en anglais (20 questions - 1 point chacune)</p>
+            
+            <div class="student-info">
+                <label for="student-name"><strong>Nom de l'étudiant:</strong></label>
+                <input type="text" id="student-name" placeholder="Entrez votre nom complet" required>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;">0/20</div>
+            </div>
+            
+            <div id="quiz-questions">
+                <!-- Question 1 -->
+                <div class="question">
+                    <h3>1. Comment dit-on "retard" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a"> a) Late return
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b"> b) Delay
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c"> c) Behind time
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="d"> d) Slow return
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question">
+                    <h3>2. Comment dire "Vous avez une suspension" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="a"> a) You are suspended
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="b"> b) You have a suspension
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="c"> c) Your account is suspended
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="d"> d) You got suspended
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question">
+                    <h3>3. "Privilèges d'emprunt" en anglais c'est:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="a"> a) Lending privileges
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="b"> b) Borrowing privileges
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="c"> c) Library rights
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="d"> d) Book privileges
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question">
+                    <h3>4. Quand un étudiant demande "Why can't I borrow?", vous répondez:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a"> a) Why you cannot?
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b"> b) Let me check your account
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c"> c) You cannot borrow
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="d"> d) Book is late
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="question">
+                    <h3>5. Comment dire "L'échéance était lundi" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a"> a) The date was Monday
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b"> b) The due date was Monday
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c"> c) Monday was the day
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="d"> d) The deadline was Monday
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question">
+                    <h3>6. Comment dire "Vous pouvez renouveler en ligne" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="a"> a) You can renew online
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="b"> b) You may renew on the internet
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="c"> c) Online renewal is possible
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="d"> d) Renewal online is available
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question">
+                    <h3>7. "Même durée que le retard" en anglais:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="a"> a) Same duration as the delay
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="b"> b) Same time as you were late
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="c"> c) Same period as late
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="d"> d) Equal time to delay
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question">
+                    <h3>8. Comment dire "Vous pouvez lire ici" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="a"> a) You can read here
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="b"> b) You may read here
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="c"> c) Reading is possible here
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="d"> d) Here you can read
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="question">
+                    <h3>9. "Ressources numériques" se dit:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q9" value="a"> a) Digital resources
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="b"> b) Numeric resources
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="c"> c) Electronic resources
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="d"> d) Virtual resources
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question">
+                    <h3>10. Comment dire "Aujourd'hui" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="a"> a) Today
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="b"> b) This day
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="c"> c) Now day
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="d"> d) Present day
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="question">
+                    <h3>11. Comment demander "Votre carte s'il vous plaît" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q11" value="a"> a) Your card please
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="b"> b) Student card please
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="c"> c) Can I have your card
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="d"> d) Your student card please
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="question">
+                    <h3>12. "Vérifier votre compte" en anglais:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q12" value="a"> a) Check your account
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="b"> b) Verify your account
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="c"> c) Look at your account
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="d"> d) Control your account
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="question">
+                    <h3>13. Comment dire "Jusqu'à vendredi" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q13" value="a"> a) Until Friday
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="b"> b) Before Friday
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="c"> c) By Friday
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="d"> d) For Friday
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="question">
+                    <h3>14. "Système automatique" se traduit par:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q14" value="a"> a) Automatic system
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="b"> b) Auto system
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="c"> c) Automated machine
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="d"> d) Self-system
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="question">
+                    <h3>15. Comment dire "Rappel par email" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q15" value="a"> a) Email reminder
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="b"> b) Email recall
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="c"> c) Email memory
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="d"> d) Reminder email
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 16 -->
+                <div class="question">
+                    <h3>16. "Je ne peux pas modifier la suspension" en anglais:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q16" value="a"> a) I cannot change the suspension
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="b"> b) I cannot modify the suspension
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="c"> c) I cannot stop the suspension
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="d"> d) I am unable to modify the suspension
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 17 -->
+                <div class="question">
+                    <h3>17. Comment dire "Renouveler" en anglais?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q17" value="a"> a) Renew
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="b"> b) Renovate
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="c"> c) Restart
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="d"> d) Refresh
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 18 -->
+                <div class="question">
+                    <h3>18. "Heures d'ouverture" en anglais:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q18" value="a"> a) Opening hours
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="b"> b) Open hours
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="c"> c) Working hours
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="d"> d) Service hours
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 19 -->
+                <div class="question">
+                    <h3>19. Pour montrer de l'empathie, "Je comprends" se dit:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q19" value="a"> a) I understand
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="b"> b) I know
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="c"> c) I see
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="d"> d) I hear
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 20 -->
+                <div class="question">
+                    <h3>20. Comment dire "Je vais appeler le superviseur" en anglais:</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q20" value="a"> a) I go call the supervisor
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="b"> b) I'll contact the supervisor
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="c"> c) I'm going to supervisor
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="d"> d) I will speak supervisor
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quiz-actions">
+                <button class="quiz-btn" id="submit-quiz" onclick="submitQuiz()" disabled>Soumettre le Quiz</button>
+                <button class="quiz-btn" id="reset-quiz" onclick="resetQuiz()">Recommencer</button>
+            </div>
+            
+            <div class="results" id="results">
+                <h2>Résultats du Quiz</h2>
+                <div class="score-display" id="score-display">0/20</div>
+                <div class="grade" id="grade"></div>
+                <p><strong>Étudiant:</strong> <span id="student-result"></span></p>
+                <p><strong>Date:</strong> <span id="test-date"></span></p>
+                <div class="results-actions">
+                    <button class="share-btn" onclick="copyResults()">Copier les Résultats</button>
+                    <button class="share-btn" onclick="printResults()">Imprimer</button>
+                    <button class="share-btn email-btn" onclick="emailResults()">📧 Envoyer par Email</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cap élan Formation</p>
+    </footer>
+
+    <script>
+        const correctAnswers = {
+            q1: 'a', q2: 'b', q3: 'b', q4: 'b', q5: 'b',
+            q6: 'a', q7: 'b', q8: 'a', q9: 'a', q10: 'a',
+            q11: 'a', q12: 'a', q13: 'a', q14: 'a', q15: 'a',
+            q16: 'b', q17: 'a', q18: 'a', q19: 'a', q20: 'b'
+        };
+
+        let answered = 0;
+
+        // Track progress
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                updateProgress();
+                updateSubmitButton();
+                
+                // Add visual feedback
+                const option = e.target.closest('.option');
+                const options = option.parentNode.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            }
+        });
+
+        function updateProgress() {
+            answered = 0;
+            for (let i = 1; i <= 20; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                    answered++;
+                }
+            }
+            
+            const progressFill = document.getElementById('progress-fill');
+            const percentage = (answered / 20) * 100;
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = `${answered}/20`;
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submit-quiz');
+            const studentName = document.getElementById('student-name').value.trim();
+            submitBtn.disabled = !(answered === 20 && studentName);
+        }
+
+        // Update submit button when name is entered
+        document.getElementById('student-name').addEventListener('input', updateSubmitButton);
+
+        function submitQuiz() {
+            const studentName = document.getElementById('student-name').value.trim();
+            if (!studentName) {
+                alert('Veuillez entrer votre nom avant de soumettre le quiz.');
+                return;
+            }
+
+            let score = 0;
+            const totalQuestions = 20;
+
+            // Calculate score and show answers
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                
+                options.forEach(option => {
+                    const label = option.closest('.option');
+                    if (option.value === correctAnswers[`q${i}`]) {
+                        label.classList.add('correct');
+                    } else if (option.checked) {
+                        label.classList.add('incorrect');
+                    }
+                    option.disabled = true;
+                });
+
+                if (selected && selected.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            // Show results
+            showResults(score, totalQuestions, studentName);
+            
+            // Disable submit button
+            document.getElementById('submit-quiz').disabled = true;
+        }
+
+        function showResults(score, total, studentName) {
+            const percentage = Math.round((score / total) * 100);
+            let grade = '';
+            
+            if (percentage >= 90) grade = 'Excellent (A)';
+            else if (percentage >= 80) grade = 'Très Bien (B)';
+            else if (percentage >= 70) grade = 'Bien (C)';
+            else if (percentage >= 60) grade = 'Passable (D)';
+            else grade = 'Insuffisant (F)';
+
+            document.getElementById('score-display').textContent = `${score}/${total}`;
+            document.getElementById('grade').textContent = `${percentage}% - ${grade}`;
+            document.getElementById('student-result').textContent = studentName;
+            document.getElementById('test-date').textContent = new Date().toLocaleDateString('fr-FR');
+            
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            // Reset all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+                input.disabled = false;
+            });
+            
+            // Reset visual states
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Reset progress
+            answered = 0;
+            updateProgress();
+            updateSubmitButton();
+            
+            // Reset name
+            document.getElementById('student-name').value = '';
+            
+            // Hide results
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function copyResults() {
+            const studentName = document.getElementById('student-result').textContent;
+            const score = document.getElementById('score-display').textContent;
+            const grade = document.getElementById('grade').textContent;
+            const date = document.getElementById('test-date').textContent;
+            
+            const results = `QCM Day 1 - Face-to-Face Communication
+Étudiant: ${studentName}
+Score: ${score}
+Note: ${grade}
+Date: ${date}
+UCA Library Training Program`;
+            
+            navigator.clipboard.writeText(results).then(() => {
+                alert('Résultats copiés dans le presse-papiers!');
+            });
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        // NEW EMAIL FUNCTION
+        function emailResults() {
+            const studentName = document.getElementById('student-result').textContent;
+            const score = document.getElementById('score-display').textContent;
+            const grade = document.getElementById('grade').textContent;
+            const date = document.getElementById('test-date').textContent;
+            
+            const subject = encodeURIComponent('QCM Day 1 Results - ' + studentName);
+            const body = encodeURIComponent(`QCM Day 1 - Face-to-Face Communication Results
+
+Étudiant: ${studentName}
+Score: ${score}
+Note: ${grade}
+Date: ${date}
+
+UCA Library Training Program
+Cap élan Formation
+
+---
+This result was automatically generated from the online quiz.`);
+            
+            const mailtoLink = `mailto:tingtip.team@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
