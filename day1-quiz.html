@@ -238,8 +238,7 @@
                     <li><a href="day2-flashcards.html">Day 2 Flashcards</a></li>
                     <li><a href="grammar-flashcards.html">Grammar Flashcards</a></li>
                     <li><a href="activities.html">Classroom Activities</a></li>
-                    <li><a href="day1-quiz.html">Day 1 Quiz</a></li>
-                    <li><a href="day2-quiz.html" class="active">Day 2 Quiz</a></li>
+                    <li><a href="day1-quiz.html" class="active">Day 1 Quiz</a></li>
                 </ul>
             </div>
         </nav>
@@ -284,16 +283,16 @@
                     <h3>2. Comment dire "Vous avez une suspension" en anglais?</h3>
                     <div class="options">
                         <label class="option">
-                            <input type="radio" name="q2" value="a"> a) You are suspended
+                            <input type="radio" name="q2" value="a"> a) You're are suspended
                         </label>
                         <label class="option">
                             <input type="radio" name="q2" value="b"> b) You have a suspension
                         </label>
                         <label class="option">
-                            <input type="radio" name="q2" value="c"> c) Your account is suspended
+                            <input type="radio" name="q2" value="c"> c) You're account is cancelled
                         </label>
                         <label class="option">
-                            <input type="radio" name="q2" value="d"> d) You got suspended
+                            <input type="radio" name="q2" value="d"> d) You got cancelled
                         </label>
                     </div>
                 </div>
@@ -363,13 +362,13 @@
                             <input type="radio" name="q6" value="a"> a) You can renew online
                         </label>
                         <label class="option">
-                            <input type="radio" name="q6" value="b"> b) You may renew on the internet
+                            <input type="radio" name="q6" value="b"> b) You may renew in internet
                         </label>
                         <label class="option">
-                            <input type="radio" name="q6" value="c"> c) Online renewal is possible
+                            <input type="radio" name="q6" value="c"> c) Online renew is possible
                         </label>
                         <label class="option">
-                            <input type="radio" name="q6" value="d"> d) Renewal online is available
+                            <input type="radio" name="q6" value="d"> d) Renewal internet is available
                         </label>
                     </div>
                 </div>
@@ -458,13 +457,13 @@
                             <input type="radio" name="q11" value="a"> a) Your card please
                         </label>
                         <label class="option">
-                            <input type="radio" name="q11" value="b"> b) Student card please
+                            <input type="radio" name="q11" value="b"> b) Give student ID
                         </label>
                         <label class="option">
-                            <input type="radio" name="q11" value="c"> c) Can I have your card
+                            <input type="radio" name="q11" value="c"> c) Can I get the card
                         </label>
                         <label class="option">
-                            <input type="radio" name="q11" value="d"> d) Your student card please
+                            <input type="radio" name="q11" value="d"> d) You're student card
                         </label>
                     </div>
                 </div>
@@ -477,7 +476,7 @@
                             <input type="radio" name="q12" value="a"> a) Check your account
                         </label>
                         <label class="option">
-                            <input type="radio" name="q12" value="b"> b) Verify your account
+                            <input type="radio" name="q12" value="b"> b) Verifying your account
                         </label>
                         <label class="option">
                             <input type="radio" name="q12" value="c"> c) Look at your account
@@ -550,7 +549,7 @@
                     <h3>16. "Je ne peux pas modifier la suspension" en anglais:</h3>
                     <div class="options">
                         <label class="option">
-                            <input type="radio" name="q16" value="a"> a) I cannot change the suspension
+                            <input type="radio" name="q16" value="a"> a) I cannot rechange the suspension
                         </label>
                         <label class="option">
                             <input type="radio" name="q16" value="b"> b) I cannot modify the suspension
@@ -559,7 +558,7 @@
                             <input type="radio" name="q16" value="c"> c) I cannot stop the suspension
                         </label>
                         <label class="option">
-                            <input type="radio" name="q16" value="d"> d) I am unable to modify the suspension
+                            <input type="radio" name="q16" value="d"> d) I am not to modify the suspension
                         </label>
                     </div>
                 </div>
@@ -610,10 +609,10 @@
                             <input type="radio" name="q19" value="a"> a) I understand
                         </label>
                         <label class="option">
-                            <input type="radio" name="q19" value="b"> b) I know
+                            <input type="radio" name="q19" value="b"> b) I knew
                         </label>
                         <label class="option">
-                            <input type="radio" name="q19" value="c"> c) I see
+                            <input type="radio" name="q19" value="c"> c) I getting it
                         </label>
                         <label class="option">
                             <input type="radio" name="q19" value="d"> d) I hear
@@ -777,67 +776,4 @@
             
             // Reset visual states
             document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
-            // Reset progress
-            answered = 0;
-            updateProgress();
-            updateSubmitButton();
-            
-            // Reset name
-            document.getElementById('student-name').value = '';
-            
-            // Hide results
-            document.getElementById('results').style.display = 'none';
-        }
-
-        function copyResults() {
-            const studentName = document.getElementById('student-result').textContent;
-            const score = document.getElementById('score-display').textContent;
-            const grade = document.getElementById('grade').textContent;
-            const date = document.getElementById('test-date').textContent;
-            
-            const results = `QCM Day 1 - Face-to-Face Communication
-Étudiant: ${studentName}
-Score: ${score}
-Note: ${grade}
-Date: ${date}
-UCA Library Training Program`;
-            
-            navigator.clipboard.writeText(results).then(() => {
-                alert('Résultats copiés dans le presse-papiers!');
-            });
-        }
-
-        function printResults() {
-            window.print();
-        }
-
-        // NEW EMAIL FUNCTION
-        function emailResults() {
-            const studentName = document.getElementById('student-result').textContent;
-            const score = document.getElementById('score-display').textContent;
-            const grade = document.getElementById('grade').textContent;
-            const date = document.getElementById('test-date').textContent;
-            
-            const subject = encodeURIComponent('QCM Day 1 Results - ' + studentName);
-            const body = encodeURIComponent(`QCM Day 1 - Face-to-Face Communication Results
-
-Étudiant: ${studentName}
-Score: ${score}
-Note: ${grade}
-Date: ${date}
-
-UCA Library Training Program
-Cap élan Formation
-
----
-This result was automatically generated from the online quiz.`);
-            
-            const mailtoLink = `mailto:tingtip.team@gmail.com?subject=${subject}&body=${body}`;
-            window.location.href = mailtoLink;
-        }
-    </script>
-</body>
-</html>
+                option.classList.remove('
