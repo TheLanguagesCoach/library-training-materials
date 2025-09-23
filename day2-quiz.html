@@ -763,3 +763,79 @@
             document.getElementById('grade').textContent = `${percentage}% - ${grade}`;
             document.getElementById('student-result').textContent = studentName;
             document.getElementById('test-date').textContent = new Date().toLocaleDateString('fr-FR');
+document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            // Reset all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+                input.disabled = false;
+            });
+            
+            // Reset visual states
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Reset progress
+            answered = 0;
+            updateProgress();
+            updateSubmitButton();
+            
+            // Reset name
+            document.getElementById('student-name').value = '';
+            
+            // Hide results
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function copyResults() {
+            const studentName = document.getElementById('student-result').textContent;
+            const score = document.getElementById('score-display').textContent;
+            const grade = document.getElementById('grade').textContent;
+            const date = document.getElementById('test-date').textContent;
+            
+            const results = `QCM Day 2 - Phone Communication
+Étudiant: ${studentName}
+Score: ${score}
+Note: ${grade}
+Date: ${date}
+UCA Library Training Program`;
+            
+            navigator.clipboard.writeText(results).then(() => {
+                alert('Résultats copiés dans le presse-papiers!');
+            });
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        function emailResults() {
+            const studentName = document.getElementById('student-result').textContent;
+            const score = document.getElementById('score-display').textContent;
+            const grade = document.getElementById('grade').textContent;
+            const date = document.getElementById('test-date').textContent;
+            
+            const subject = encodeURIComponent('QCM Day 2 Results - ' + studentName);
+            const body = encodeURIComponent(`QCM Day 2 - Phone Communication Results
+
+Étudiant: ${studentName}
+Score: ${score}
+Note: ${grade}
+Date: ${date}
+
+UCA Library Training Program
+Cap élan Formation
+
+---
+This result was automatically generated from the online quiz.`);
+            
+            const mailtoLink = `mailto:tingtip.team@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
